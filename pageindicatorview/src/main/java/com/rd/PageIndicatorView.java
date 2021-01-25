@@ -113,24 +113,34 @@ public class PageIndicatorView extends View implements ViewPager.OnPageChangeLis
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        manager.drawer().touch(event);
-        return true;
+        try {
+            manager.drawer().touch(event);
+            return true;
+        } catch (Exception e) {
+            return true;
+        }
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (!manager.indicator().isFadeOnIdle()) return false;
+        try {
+            
+            if (!manager.indicator().isFadeOnIdle()) return false;
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                stopIdleRunnable();
-                break;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    stopIdleRunnable();
+                    break;
 
-            case MotionEvent.ACTION_UP:
-                startIdleRunnable();
-                break;
+                case MotionEvent.ACTION_UP:
+                    startIdleRunnable();
+                    break;
+            }
+            return false;
+            
+        } catch(Exception e) {
+            return false;
         }
-        return false;
     }
 
     @Override
